@@ -1,5 +1,7 @@
 import './App.css';
-import {useState} from "react";
+import {useEffect, useRef, useState} from "react";
+import Content from "./Content";
+import UseMemo from "./UseMemo";
 
 const carts = [100, 200, 300]
 
@@ -88,6 +90,11 @@ function App() {
     }
     const [todoList, setTodoList] = useState(() => getListTodo() ?? [])
     const [job, setJob] = useState('')
+    const [show, setShow] = useState(false)
+    const [count, setCount] = useState(90)
+    const refCount = useRef(0)
+    const prevCount = useRef()
+    const elemCount = useRef()
     const handleTodo = () => {
         if (job !== '') {
             setTodoList(prev => {
@@ -98,6 +105,17 @@ function App() {
             setJob('')
         }
     }
+    const handleStartCount = () => {
+        refCount.current = setInterval(() => {
+            setCount(prev => prev - 1)
+        }, 500)
+    }
+    const handleStopCount = () => {
+        clearInterval(refCount.current)
+    }
+    useEffect(() => {
+       prevCount.current = count
+    }, [count])
     return (
         <div className="App" style={{backgroundColor: '#ccc'}}>
             {/*<h1>{JSON.stringify(info)}</h1>*/}
@@ -149,6 +167,17 @@ function App() {
                     </ul>
                 </div>
             </div>
+            <hr/>
+            <h1>Use effect</h1>
+            <button onClick={() => setShow(!show)}>Toggle</button>
+            {show && <Content/>}
+            <hr/>
+            <h1>Use ref</h1>
+            <h2 ref={elemCount}>{count}</h2>
+            <button onClick={handleStartCount}>Start</button>
+            <button onClick={handleStopCount}>Stop</button>
+            <hr/>
+            <UseMemo count={count}/>
         </div>
     );
 }
