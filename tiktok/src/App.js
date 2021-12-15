@@ -1,11 +1,13 @@
 import './App.css';
-import {useCallback, useEffect, useRef, useState} from "react";
+import {useCallback, useContext, useEffect, useRef, useState} from "react";
 import Content from "./Content";
 import UseMemo from "./UseMemo";
 import ToDoApp from './Todo'
+import {ThemeContext} from "./ThemeContext";
 const carts = [100, 200, 300]
 
 function App() {
+    const context = useContext(ThemeContext)
     // const [counter, setCounter] = useState(() => {
     //     return carts.reduce((total, item) => total + item, 0)
     // })
@@ -119,8 +121,13 @@ function App() {
     const onHandleChangeCount = useCallback(() => {
         setCount(prev => prev + 1)
     }, [])
+    const handleTheme = () => {
+        return context.toggleTheme()
+    }
+
     return (
-        <div className="App" style={{backgroundColor: '#ccc'}}>
+        <div className={`${context.theme} App`} style={{backgroundColor: '#ccc'}}>
+            <button onClick={context.toggleTheme}>Toggle Theme</button>
             {/*<h1>{JSON.stringify(info)}</h1>*/}
             {/*<button onClick={handleCounter}>Increase</button>*/}
             {/*<h1>{giftState}</h1>*/}
