@@ -1,5 +1,5 @@
 import './App.css';
-import {useEffect, useRef, useState} from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 import Content from "./Content";
 import UseMemo from "./UseMemo";
 
@@ -116,6 +116,9 @@ function App() {
     useEffect(() => {
        prevCount.current = count
     }, [count])
+    const onHandleChangeCount = useCallback(() => {
+        setCount(prev => prev + 1)
+    }, [])
     return (
         <div className="App" style={{backgroundColor: '#ccc'}}>
             {/*<h1>{JSON.stringify(info)}</h1>*/}
@@ -177,7 +180,7 @@ function App() {
             <button onClick={handleStartCount}>Start</button>
             <button onClick={handleStopCount}>Stop</button>
             <hr/>
-            <UseMemo count={count}/>
+            <UseMemo onChangeCount={onHandleChangeCount}/>
         </div>
     );
 }
