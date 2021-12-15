@@ -1,5 +1,7 @@
 import {useReducer, useRef} from "react";
-
+import reducer ,{initStateToDo} from './reducers'
+import {setJobs, setJob, deleteJob} from './actions'
+import logger from "./logger";
 const UseReducerDemo = () => {
     // Step use reducer
     /***
@@ -8,64 +10,8 @@ const UseReducerDemo = () => {
      * 3. Define reducer
      * 4. Dispatch
      */
-    const initState = 0
-    const initStateToDo = {
-        job: '',
-        jobs: []
-    }
     const inputRef = useRef()
-    const DOWN_ACT = 'down'
-    const UP_ACT = 'up'
-    const SET_JOB = 'setJob'
-    const SET_JOBS = 'setJobs'
-    const DELETE_JOB = 'deleteJob'
-    const deleteJob = payload => {
-        console.log('deleteJob: ', payload)
-        return {
-            type: DELETE_JOB,
-            payload
-        }
-    }
-    const setJob = payload => {
-        return {
-            type: SET_JOB,
-            payload
-        }
-    }
-    const setJobs = payload => {
-        return {
-            type: SET_JOBS,
-            payload
-        }
-    }
-    const reducer = (state, action) => {
-        switch (action.type) {
-            // case DOWN_ACT:
-            //     return state - 1
-            // case UP_ACT:
-            //     return state + 1
-            case SET_JOB:
-                return {
-                    ...state,
-                    job: action.payload
-                }
-            case SET_JOBS:
-                return {
-                    ...state,
-                    jobs: [...state.jobs, action.payload]
-                }
-            case DELETE_JOB:
-                const newJob = [...state.jobs]
-                newJob.splice(action.payload, 1)
-                return {
-                    ...state,
-                    jobs: newJob
-                }
-            default:
-                throw new Error('Invalid action')
-        }
-    }
-    const [state, dispatch] = useReducer(reducer, initStateToDo)
+    const [state, dispatch] = useReducer(logger(reducer), initStateToDo)
     const {job, jobs} = state
     const handleRemoveTodo = (e) => {
         dispatch(deleteJob(e))

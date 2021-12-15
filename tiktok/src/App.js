@@ -2,8 +2,7 @@ import './App.css';
 import {useCallback, useEffect, useRef, useState} from "react";
 import Content from "./Content";
 import UseMemo from "./UseMemo";
-import UseReducerDemo from "./useReducerDemo";
-
+import ToDoApp from './Todo'
 const carts = [100, 200, 300]
 
 function App() {
@@ -183,7 +182,7 @@ function App() {
             <hr/>
             <UseMemo onChangeCount={onHandleChangeCount}/>
             <hr/>
-            <UseReducerDemo/>
+            <ToDoApp/>
         </div>
     );
 }
